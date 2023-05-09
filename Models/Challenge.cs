@@ -14,12 +14,11 @@ public class Challenge
 	public bool IsStarted { get; set; } = false;
 	public bool IsFinished { get; set; } = false;
 
-
 	public Guid ChallengedId { get; set; }
 	public virtual Participant Challenged { get; set; }
+
 	public Guid ChallengerId { get; set; }
 	public virtual Participant Challenger { get; set; }
-
 
 	public Guid? WinnerId { get; set; }
 	public virtual Participant? Winner { get; set; }

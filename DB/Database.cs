@@ -1,5 +1,7 @@
 ﻿using biochallenge.Models;
+// using Google.Protobuf.WellKnownTypes;
 using Microsoft.EntityFrameworkCore;
+// using Ubiety.Dns.Core;
 
 namespace biochallenge.DB;
 
@@ -41,6 +43,28 @@ public class Database : DbContext
 			.HasMany(c => c.Quiz)
 			.WithOne()
 			.OnDelete(DeleteBehavior.Cascade);
+
+		// Seed data
+		var participant1 = new Participant { Id = Guid.NewGuid(), Score = 2.0 };
+		var participant2 = new Participant { Id = Guid.NewGuid(), Score = 1.0 };
+		modelBuilder.Entity<Participant>().HasData(participant1, participant2);
+
+		var question1 = new Question { Quiz = "Quiz 1", Hint = "", Duration = 10 };
+		var question2 = new Question { Quiz = "Quiz 2", Hint = "", Duration = 30 };
+		var question3 = new Question { Quiz = "Quiz 3", Duration = 15 };
+		modelBuilder.Entity<Question>().HasData(question1); //, question2, question3);
+
+		var option1 = new Option { Answer = "Answer 1", IsCorrect = false, QuestionId = question1.Id };
+		var option2 = new Option { Answer = "Answer 2", IsCorrect = false, QuestionId = question1.Id };
+		var option3 = new Option { Answer = "Answer 3", IsCorrect = true, QuestionId = question1.Id };
+		modelBuilder.Entity<Option>().HasData(option1, option2, option3);
+
+		var challenge1 = new Challenge { ChallengedId = participant1.Id, ChallengerId = participant2.Id };
+		modelBuilder.Entity<Challenge>().HasData(challenge1);
+		/**/
+
+
+		base.OnModelCreating(modelBuilder);
 	}
 
 

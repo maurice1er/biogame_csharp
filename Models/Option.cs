@@ -16,5 +16,4 @@ public class Option
 
 	public Guid QuestionId { get; set; }
 	public virtual Question Question { get; set; }
-
 }

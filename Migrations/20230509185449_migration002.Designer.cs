@@ -12,8 +12,8 @@ using biochallenge.DB;
 namespace biochallenge.Migrations
 {
     [DbContext(typeof(Database))]
-    [Migration("20230509181131_migration009")]
-    partial class migration009
+    [Migration("20230509185449_migration002")]
+    partial class migration002
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -66,6 +66,16 @@ namespace biochallenge.Migrations
                     b.HasIndex("WinnerId");
 
                     b.ToTable("Challenges");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "5310272a-3104-4adc-a245-09127a240f62",
+                            ChallengedId = "83a815e1-452f-4fb3-9123-3618d6c965da",
+                            ChallengerId = "75cc7325-20c1-4c0e-a8ab-15f0f36eb288",
+                            IsFinished = false,
+                            IsStarted = false
+                        });
                 });
 
             modelBuilder.Entity("biochallenge.Models.Option", b =>
@@ -90,6 +100,29 @@ namespace biochallenge.Migrations
                     b.HasIndex("QuestionId");
 
                     b.ToTable("Options");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "930c76c9-c411-49aa-90e0-ba0e81fb978b",
+                            Answer = "Answer 1",
+                            IsCorrect = false,
+                            QuestionId = "8eac2a6d-77a7-410f-8d5a-d650ea85a5db"
+                        },
+                        new
+                        {
+                            Id = "c1eeddd5-c8d8-415e-9a5b-f16fdcbe8522",
+                            Answer = "Answer 2",
+                            IsCorrect = false,
+                            QuestionId = "8eac2a6d-77a7-410f-8d5a-d650ea85a5db"
+                        },
+                        new
+                        {
+                            Id = "2fa0719b-2337-4dce-833d-bc83ee1384d1",
+                            Answer = "Answer 3",
+                            IsCorrect = true,
+                            QuestionId = "8eac2a6d-77a7-410f-8d5a-d650ea85a5db"
+                        });
                 });
 
             modelBuilder.Entity("biochallenge.Models.Participant", b =>
@@ -104,6 +137,18 @@ namespace biochallenge.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Participants");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "83a815e1-452f-4fb3-9123-3618d6c965da",
+                            Score = 2.0
+                        },
+                        new
+                        {
+                            Id = "75cc7325-20c1-4c0e-a8ab-15f0f36eb288",
+                            Score = 1.0
+                        });
                 });
 
             modelBuilder.Entity("biochallenge.Models.Question", b =>
@@ -130,6 +175,15 @@ namespace biochallenge.Migrations
                     b.HasIndex("ChallengeId");
 
                     b.ToTable("Questions");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "8eac2a6d-77a7-410f-8d5a-d650ea85a5db",
+                            Duration = 10,
+                            Hint = "",
+                            Quiz = "Quiz 1"
+                        });
                 });
 
             modelBuilder.Entity("biochallenge.Models.Challenge", b =>

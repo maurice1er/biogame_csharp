@@ -12,8 +12,8 @@ using biochallenge.DB;
 namespace biochallenge.Migrations
 {
     [DbContext(typeof(Database))]
-    [Migration("20230509181327_migration010")]
-    partial class migration010
+    [Migration("20230509185321_migration001")]
+    partial class migration001
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -104,6 +104,18 @@ namespace biochallenge.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Participants");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "f04c0f9f-d5b2-4fbf-b728-52e1c096d45b",
+                            Score = 2.0
+                        },
+                        new
+                        {
+                            Id = "6201fbe6-471f-40b1-b224-67bd4bf5a13d",
+                            Score = 1.0
+                        });
                 });
 
             modelBuilder.Entity("biochallenge.Models.Question", b =>
