@@ -4,6 +4,6 @@ namespace biochallenge.Repositories;
 
 public interface IChallengeRepository
 {
-	Challenge CreateChallenge(Participant challenger, Participant challenged, List<Quiz> quizList);
+	Task<Challenge> CreateChallenge(Participant challenger, Participant challenged, List<Question> quizList);
 	bool AcceptChallenge(Challenge challenge, Participant participant);
 }

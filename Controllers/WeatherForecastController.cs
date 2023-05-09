@@ -1,41 +1,78 @@
+using biochallenge.Models;
 using biochallenge.Repositories;
 using biochallenge.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace biochallenge.Controllers
-{
-	[ApiController]
-	[Route("[controller]")]
-	public class WeatherForecastController : ControllerBase
-	{
-		IChallengeRepository participantRepository;
+namespace biochallenge.Controllers;
 
-		private static readonly string[] Summaries = new[]
+
+[ApiController]
+[Route("/api")]
+public class WeatherForecastController : ControllerBase
+{
+	IChallengeRepository participantRepository;
+
+	private static readonly string[] Summaries = new[]
+	{
+		"Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
+	};
+
+	private readonly ILogger<WeatherForecastController> _logger;
+
+	public WeatherForecastController(ILogger<WeatherForecastController> logger)
+	{
+		_logger = logger;
+		participantRepository = new ChallengeService();
+
+	}
+
+
+	
+	[HttpGet("/getgame")]
+	public ActionResult<Participant> GetGame()
+	{
+		
+		List<Option> options = new List<Option>
 		{
-			"Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
+			new Option { Answer = "Option 1", IsCorrect = false },
+			new Option { Answer = "Option 2", IsCorrect = true },
+			new Option { Answer = "Option 3", IsCorrect = false }
 		};
 
-		private readonly ILogger<WeatherForecastController> _logger;
+		List<Question> quizList = new List<Question>();
+		quizList.Add(new Question { Quiz = "Question1", Hint = "Hint1", Duration = 5 });
+		quizList.Add(new Question { Quiz = "Question2", Hint = "Hint2", Duration = 10 });
+		quizList.Add(new Question { Quiz = "Question3", Hint = "Hint3", Duration = 5 });
 
-		public WeatherForecastController(ILogger<WeatherForecastController> logger)
+		Participant challenger = new Participant();
+		Participant challenged = new Participant();
+
+		Challenge ch = new Challenge
 		{
-			_logger = logger;
-			participantRepository = new ChallengeService();
+			Challenger = challenger,
+			Challenged = challenged,
+			Quiz = quizList
+		};
+		
 
-		}
+		return Ok(new { status = ch});
+	}
+	
 
-		[HttpGet(Name = "GetWeatherForecast")]
-		public IEnumerable<WeatherForecast> Get()
-		{
-			participantRepository.RunChallenge();
 
-			return Enumerable.Range(1, 5).Select(index => new WeatherForecast
+	[HttpGet(Name = "GetWeatherForecast")]
+	public IEnumerable<WeatherForecast> Get()
+	{
+			return Enumerable
+			.Range(1, 5).Select(index => new WeatherForecast
 			{
 				Date = DateTime.Now.AddDays(index),
 				TemperatureC = Random.Shared.Next(-20, 55),
 				Summary = Summaries[Random.Shared.Next(Summaries.Length)]
 			})
 			.ToArray();
-		}
 	}
 }
+
+
+
